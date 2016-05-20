@@ -1,0 +1,82 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React Tutorial</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script type="text/babel" src="scripts/example.js"></script>
+    <script type="text/babel">
+
+    var data = [
+      {id: 1, author: "Pete Hunt", text: "This is one comment"},
+      {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
+    ]
+
+let CommentBox = React.createClass({
+  render: function(){
+    return (
+      <div className="commentBox">
+        <CommentList data={this.props.data}/>
+        <CommentForm />
+      </div>
+    )
+  }
+})
+
+let CommentList = React.createClass({
+  render: function(){
+    var allComments = this.props.data.map(function(element){
+      return(
+        <Comment author={element.author} key={element.id}>
+          {element.text}
+        </Comment>
+      )
+    })
+    return (
+      <div className="commentList">
+        {allComments}
+      </div>
+    )
+  }
+})
+
+let CommentForm = React.createClass({
+  render: function(){
+    return(
+      <div className="commentForm">
+        Hello world!, I am a CommentForm
+      </div>
+    )
+  }
+})
+
+let Comment = React.createClass({
+  render: function(){
+    return(
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        {marked(this.props.children.toString())}
+      </div>
+    )
+  }
+})
+
+
+ReactDOM.render(
+  <CommentBox data={data} />,
+  $('#content').get(0)
+)
+
+    </script>
+  </body>
+</html>
